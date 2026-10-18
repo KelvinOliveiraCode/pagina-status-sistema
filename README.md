@@ -1,80 +1,90 @@
-# página-status-sistema
+# pagina-status-sistema
 
-PT-BR: Página de status do sistema com React 18 e TypeScript — uptime, incidentes e histórico.
-EN: System status page with React 18 and TypeScript — uptime, incidents and history.
+![JavaScript/TypeScript](https://img.shields.io/badge/JS-TS-yellow?logo=javascript)   ![status: concluido](https://img.shields.io/badge/status-concluido-green)   ![licenca: MIT](https://img.shields.io/badge/licenca-MIT-blue)
 
-## Descrição / Description
+## Resumo
 
-**PT-BR**
-Projeto frontend da área Frontend do plano de 50 projetos. Página pública de status que exibe:
-- lista de serviços com status (operacional / degradado / indisponível), uptime e tempo de resposta;
-- incidentes com atualizações cronológicas;
-- histórico de alterações de status dos serviços.
+Aplicacao web em JavaScript/TypeScript. Projeto funcional, pagina-status-sistema
 
-Os dados são sintéticos e determinísticos (referência de tempo fixa, sem `Date.now()`/`Math.random()`), escritos em TypeScript com tipagem estrita (`strict: true`).
+## Problema / por que existe
 
-**EN**
-Frontend project from the 50-project plan (Frontend area). Public status page that displays:
-- list of services with status (operational / degraded / unavailable), uptime and response time;
-- incidents with chronological updates;
-- history of service status changes.
+O projeto entrega uma interface ou utilitario web para um recorte especifico, com foco em navegador como ambiente de execucao e sem dependencia de servidor proprio.
 
-Data is synthetic and deterministic (fixed time reference, no `Date.now()`/`Math.random()`), written in TypeScript with strict typing (`strict: true`).
+## Arquitetura
 
-## Stack / Pilha
+- Camada de apresentacao: componentes e paginas que renderizam a interface.
+- Camada de logica: funcoes e hooks que processam dados e estado.
+- Comunicacao: requisicoes HTTP a APIs externas ou dados locais, quando aplicavel.
 
-- React 18
-- TypeScript (strict)
-- Vite (dev/build)
-- Vitest (testes / tests)
+O build e feito com Vite (ou ferramenta equivalente), gerando arquivos estaticos prontos para hospedagem.
 
-## Como usar / How to use
+## Tecnologias
 
-### Pré-requisitos / Prerequisites
+- JavaScript / TypeScript
+- react
+- react-dom
+- @types/react
+- @types/react-dom
+- @vitejs/plugin-react
+- typescript
+- vite
+- vitest
 
-Node.js 18+ e npm. Neste ambiente: Node v24.13.0, npm 11.6.2.
+- Sem CI configurado neste repositorio.
 
-### Instalação / Installation
+O repositorio contem testes automatizados.
 
-```bash
+## O que faz
+
+Projeto funcional, pagina-status-sistema
+
+## Como rodar
+
+Requisitos: Node.js e npm (ou yarn/pnpm).
+
+```
+# instalar dependencias
 npm install
+
+# rodar em desenvolvimento
+vite
+
+# build para producao
+tsc --noEmit && vite build
+
+# rodar testes
+vitest run
 ```
 
-### Executar em desenvolvimento / Run in development
+## Estrutura do projeto
 
-```bash
-npm run dev
+- src/ (15 arquivo(s))
+- test/ (3 arquivo(s))
+- .gitignore, BRIEF.md, index.html, package-lock.json, package.json, README.en.md, README.md, tsconfig.json, vite.config.ts
+
+
+## Trade-offs e decisões
+
+- Build estatico: facil de hospedar (GitHub Pages, Vercel, Netlify) sem servidor.
+- Dependencias minimas para reduzir superficie de manutencao.
+- Navegador como unico ambiente de execucao necessario.
+
+## Limitações conhecidas
+
+- Funciona no navegador; depende de conexao a internet para recursos externos.
+
+
+## Testes
+
+```
+vitest run
 ```
 
-Acesse http://localhost:5173
+## Licença
 
-### Build de produção / Production build
+Distribuído sob a licenca MIT. Consulte o arquivo `LICENSE` do repositorio.
 
-```bash
-npm run build
-```
+## Autor
 
-Executa `tsc --noEmit` (verificação de tipos) e depois `vite build`.
-
-## Testes / Tests
-
-```bash
-npm test
-```
-
-Comando usado: `vitest run` (definido no script `test` do `package.json`).
-
-Os testes cobrem a camada de lógica pura (determinística, sem DOM):
-- `test/status.test.ts` — `overallStatus`, `worstStatus`, `servicesByStatus`, `averageUptime`;
-- `test/services.test.ts` — validação dos dados sintéticos de serviços;
-- `test/incidents.test.ts` — validação dos dados sintéticos de incidentes.
-
-Resultado esperado: todos os testes passam.
-
-## Licença / License
-
-MIT
-
-## Autor / Author
-
-Kelvin Oliveira
+Kelvin Oliveira, https://github.com/KelvinOliveiraCode
+Portfolio: https://kelvinoliveiracode.github.io/portfolio/
