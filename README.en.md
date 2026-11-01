@@ -1,127 +1,95 @@
 # pagina-status-sistema
 
-<div align="center">
-
 **English** · [Português (Brasil)](README.md)
 
-</div>
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![React 18](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
-
-### Projeto funcional ,  pagina-status-sistema
-
----
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=flat-square&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react) ![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite) ![Vitest](https://img.shields.io/badge/Vitest-3%20suites-6E9F18?style=flat-square&logo=vitest) ![MIT](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)
 
 ## What it is
 
-Projeto funcional ,  pagina-status-sistema
+**A system status page** (in the style of public status pages): a **React 18 + TypeScript SPA** that shows **per-service uptime**, **incidents** and availability **history**. Sample data lives in `src/data`; state aggregation (worst status wins) is in `src/logic/status.ts` and is tested with Vitest.
 
----
+## Status
 
-## Quick Start
+A working prototype with sample data; tests passing (3 suites: incidents, services, status).
 
-```bash
-# Clone and enter
-git clone https://github.com/KelvinOliveiraCode/<repo>.git
-cd <repo>
+## Features
 
-# Install dependencies
-npm install
+- **Status aggregation** (`logic/status.ts`): `worstStatus` — the worst state (`operacional` < `degradado` < `indisponível`) becomes the overall state.
+- **Services** (`components/ServicesList.tsx`, `ServiceCard.tsx`): a card per service with a state badge (`StatusBadge`).
+- **Incidents** (`IncidentsList.tsx`, `IncidentCard.tsx`): an incident list with descriptions.
+- **History** (`HistoryTable.tsx`): a past-availability table.
+- **Sample data** (`data/services.ts`, `data/incidents.ts`, `data/history.ts`).
 
-# Development server
-npm run dev
+## Architecture
 
-# Production build
-npm run build
+A React SPA assembled by Vite. `StatusPage.tsx` composes the lists; the pure logic (`worstStatus`) is isolated in `logic/` for DOM-free testing.
 
-# Run tests
-npm test
+```mermaid
+flowchart LR
+    DATA[data/services · incidents · history] --> SP[StatusPage.tsx]
+    SP --> SL[ServicesList + StatusBadge]
+    SP --> IL[IncidentsList]
+    SP --> HT[HistoryTable]
+    LOG[logic/status.ts - worstStatus] --> SP
 ```
 
-## How it works
+## Stack
 
-Arquitetura de componente em arquivo único (`App.tsx`): toda a UI, estado e lógica vivem em um arquivo para simplicidade de deploy e build zero-config.
+- React 18.3, TypeScript 5.5
+- Vite 5.4, Vitest 2.0
+- No runtime dependencies beyond React
 
-Decisões arquiteturais principais:
-- **Estado global** via `useState` + `useMemo` (evita overhead do Context API)
-- **Agregações memoizadas** para gráficos e insights
-- **Dados mock in-line** como constantes TypeScript para prototipagem sem backend
-- **IA baseada em regras** (`getAIResponse`) ,  determinística, offline, custo zero
+## Repository layout
 
----
+```
+pagina-status-sistema/
+├── src/
+│   ├── logic/status.ts        # state aggregation
+│   ├── components/            # StatusPage, ServicesList, IncidentsList, HistoryTable...
+│   ├── data/                  # services, incidents, history (samples)
+│   └── types.ts · App.tsx · main.tsx
+├── test/ (incidents · services · status)
+├── index.html · vite.config.ts · tsconfig.json
+└── package.json
+```
 
-## Capabilities
+## Prerequisites and installation
 
-| Capacidade | Descrição |
-|------------|-------------|
-| Dashboard | 6 cards de métricas (Saldo, Receitas, Despesas, Economia, Investimentos, Patrimônio) |
-| Fluxo de Caixa | Gráfico de barras (7d/30d) com Recharts ,  Receitas, Despesas, Saldo por período |
-| Orçamentos | Orçamentos por categoria com barras de progresso, alertas de estouro |
-| Metas | Anéis de progresso com cálculo de economia mensal e contagem regressiva |
-| Assistente IA | Chat baseado em regras (getAIResponse) ,  análise de gastos, dicas, projeções |
-| Insights | Alertas automáticos: picos de delivery, crescimento patrimonial, breakdown por categoria |
-| Transações | Adicionar/editar receitas/despesas com categorias, tags, seletor de data |
-| Persistência | localStorage ,  estado sobrevive a reload, zero backend |
+Node.js ≥ 18.
 
+```bash
+npm install
+```
 
----
+## How to run
 
+```bash
+npm run dev        # dev server
+npm run build      # production build (tsc + vite)
+npm run preview    # serve the build
+```
 
+## Tests and quality
 
----
+```bash
+npm test
+# Vitest: 3 suites (incidents, services, status)
+```
 
-## FAQ
+## Technical decisions and trade-offs
 
-<details>
-<summary><strong>What is this project?</strong></summary>
+- **Pure logic separated** (`logic/status.ts`): testable without rendering.
+- **Static data in `src/data`**: no backend; swapping in an API is just replacing the imports.
 
-A React/TypeScript study/project demonstrating core concepts.
+## Known limitations and roadmap
 
-</details>
+- Data is hard-coded (no real uptime checks or incident API).
+- No auto-refresh/polling.
 
-<details>
-<summary><strong>How do I run it?</strong></summary>
+## Development process
 
-See [Quick Start](#quick-start) for copy-paste commands.
+An individual project by Kelvin Oliveira, built with orchestrated AI agents and reviewed by the author.
 
-</details>
+## License and author
 
-<details>
-<summary><strong>Are there tests?</strong></summary>
-
-No automated tests in this repository.
-
-</details>
-
-<details>
-<summary><strong>Can I use this in production?</strong></summary>
-
-This is a **study/portfolio project**. Review and harden (auth, persistence, monitoring, etc.) before production use.
-
-</details>
-
-
-
----
-
-## Documentation
-
-- **Source Code** ,  Browse the `src/` directory for implementation details
-- **API Reference** ,  TypeScript types in source
-- **Architecture Diagram** ,  See [architecture.mermaid](docs/architecture.mermaid) (if present)
-- **Changelog** ,  [CHANGELOG.md](CHANGELOG.md) (if present)
-- **Contributing** ,  [CONTRIBUTING.md](CONTRIBUTING.md) (if present)
-
-## License
-
-[MIT](LICENSE) ,  Kelvin Oliveira
-
----
-
-<div align="center">
-
-**Built with** · TypeScript + React + Vite + Tailwind
-
-**Author** · [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
-
-</div>
+MIT — Copyright (c) 2026 Kelvin Oliveira. Author: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
